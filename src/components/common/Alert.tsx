@@ -1,6 +1,6 @@
 import type React from "react";
 import { AlertCircle, CheckCircle, AlertTriangle } from "lucide-react";
-import { useAlert, type AlertContextType } from "../context/AlertContext";
+import { useAlert, type AlertContextType } from "../../context/AlertContext";
 
 export const Alert: React.FC = () => {
   const { alert, isVisible } = useAlert() as AlertContextType;

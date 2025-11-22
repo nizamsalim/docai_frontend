@@ -1,4 +1,4 @@
-import { useLoader, type LoaderContextType } from "../context/LoaderContext";
+import { useLoader, type LoaderContextType } from "../../context/LoaderContext";
 
 export function Loader() {
   const { isLoading } = useLoader() as LoaderContextType;

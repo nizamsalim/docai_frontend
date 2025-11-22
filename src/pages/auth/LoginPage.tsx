@@ -37,7 +37,6 @@ export default function LoginForm() {
     };
 
     setIsLoading(false);
-    console.log(res);
     if (!res.success) {
       showAlert({ type: AlertType.DANGER, title: res.message! });
       return;

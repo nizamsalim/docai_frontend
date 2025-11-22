@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useAuth, type AuthContextType } from "../context/AuthContext";
+import { useAuth, type AuthContextType } from "../../context/AuthContext";
 import { Navigate } from "react-router";
 import { StaticLoader } from "./Loader";
 

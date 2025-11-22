@@ -13,7 +13,6 @@ export enum AlertType {
 
 export interface AlertContextType {
   alert: Alert;
-  setAlert: React.Dispatch<React.SetStateAction<Alert>>;
   isVisible: boolean;
   showAlert: (inputAlert: Alert, duration?: number) => void;
 }
@@ -37,7 +36,7 @@ const AlertContextProvider = ({ children }: Props) => {
   };
 
   return (
-    <AlertContext.Provider value={{ alert, setAlert, isVisible, showAlert }}>
+    <AlertContext.Provider value={{ alert, isVisible, showAlert }}>
       {children}
     </AlertContext.Provider>
   );

@@ -1,19 +1,11 @@
 import Axios from "axios";
-type RegisterBody = {
-  username: string;
-  password: string;
-  name: string;
-};
-type LoginBody = {
-  username: string;
-  password: string;
-};
+import type { LoginBody, RegisterBody } from "../types/auth.types";
 
 export default class AuthService {
-  private static API_URL = "https://localhost:5000/api/v1/auth";
+  private static API_URL = import.meta.env.VITE_API_URL;
 
   private static axios = Axios.create({
-    baseURL: this.API_URL,
+    baseURL: `${this.API_URL}/auth`,
   });
 
   static async register(body: RegisterBody) {

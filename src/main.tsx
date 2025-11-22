@@ -1,54 +1,78 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
-import { BrowserRouter, Routes, Route } from "react-router";
-import "./index.css";
-import RegisterPage from "./pages/auth/RegisterPage.tsx";
-import LoginPage from "./pages/auth/LoginPage.tsx";
-import { Alert } from "./components/Alert.tsx";
-import { Loader } from "./components/Loader.tsx";
-import GlobalContext from "./context/GlobalContext.tsx";
-import { AuthRoute, ProtectedRoute } from "./components/ProtectedRoute.tsx";
-import HomePage from "./pages/home/HomePage.tsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import App from "./App";
+import RegisterPage from "./pages/auth/RegisterPage";
+import LoginPage from "./pages/auth/LoginPage";
+import ProjectsDashboardPage from "./pages/projects/ProjectsDashboardPage";
+import CreateProjectPage from "./pages/projects/CreateProjectPage";
+
+import { AuthRoute, ProtectedRoute } from "./components/common/ProtectedRoute";
+import ProjectService from "./api/project";
+
+import "./index.css";
+import RootLayout from "./components/common/RootLayout";
+
+// -------------------------------
+// 🔹 Route Config
+// -------------------------------
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <App /> }, // 👈 cleaner
+
+      {
+        path: "auth",
+        children: [
+          {
+            path: "register",
+            element: (
+              <AuthRoute>
+                <RegisterPage />
+              </AuthRoute>
+            ),
+          },
+          {
+            path: "login",
+            element: (
+              <AuthRoute>
+                <LoginPage />
+              </AuthRoute>
+            ),
+          },
+        ],
+      },
+
+      {
+        path: "projects",
+        element: (
+          <ProtectedRoute>
+            <ProjectsDashboardPage />
+          </ProtectedRoute>
+        ),
+        loader: async () => await ProjectService.getAllProjects(),
+      },
+
+      {
+        path: "projects/new",
+        element: (
+          <ProtectedRoute>
+            <CreateProjectPage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+]);
+
+// -------------------------------
+// 🔹 Render App
+// -------------------------------
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <GlobalContext>
-        <Alert />
-        <Loader />
-        <Routes>
-          <Route path="/" element={<App />} />
-
-          <Route path="/auth">
-            <Route
-              path="register"
-              element={
-                <AuthRoute>
-                  <RegisterPage />
-                </AuthRoute>
-              }
-            />
-            <Route
-              path="login"
-              element={
-                <AuthRoute>
-                  <LoginPage />
-                </AuthRoute>
-              }
-            />
-          </Route>
-
-          <Route
-            path="projects"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </GlobalContext>
-    </BrowserRouter>
+    <RouterProvider router={router} />
   </StrictMode>
 );
