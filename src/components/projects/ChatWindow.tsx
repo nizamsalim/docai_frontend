@@ -1,19 +1,28 @@
 import { useState } from "react";
 import "@/styles/project.css";
+import SectionService from "@/api/section";
+import {
+  useSectionData,
+  type SectionContextType,
+} from "@/context/SectionContext";
+import { StaticLoader } from "../common/Loader";
 
 export default function ChatWindow() {
+  const { section, setCurrentSection } = useSectionData() as SectionContextType;
   const [selectedModel, setSelectedModel] = useState("gemini");
   const [messages, setMessages] = useState([
     {
       id: Date.now(),
-      text: "Hello",
-      sender: "user",
+      text: "Hello. How may I assist you today",
+      sender: "assistant",
       timestamp: new Date(),
     },
   ]);
   const [inputText, setInputText] = useState("");
+  const [isLoading, setisLoading] = useState(false);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
+    setisLoading(true);
     if (!inputText.trim()) return;
 
     const newMessage = {
@@ -26,7 +35,13 @@ export default function ChatWindow() {
     setMessages([...messages, newMessage]);
     // onRefinementRequest(inputText, selectedModel);
     // ProjectService.refine
+    const res = await SectionService.refine(section!.id, {
+      userInstruction: inputText,
+      modelName: selectedModel,
+    });
+    setCurrentSection(res.section);
     setInputText("");
+    setisLoading(false);
   };
 
   return (
@@ -42,6 +57,7 @@ export default function ChatWindow() {
           <option value="gpt">GPT</option>
         </select>
       </div>
+      <StaticLoader isVisible={isLoading} />
 
       <div className="chat-messages">
         {messages.length === 0 ? (
