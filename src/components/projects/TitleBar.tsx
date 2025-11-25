@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "@/styles/project.css";
 import { CheckIcon, DownloadIcon, EditIcon } from "lucide-react";
 import { Link } from "react-router";

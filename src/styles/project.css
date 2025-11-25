@@ -52,7 +52,6 @@ body {
     var(--color-slate-950)
   );
   color: var(--color-text);
-  overflow: hidden;
   height: 100vh;
 }
 
@@ -109,6 +108,7 @@ body {
   background-color: var(--color-surface-solid);
   color: var(--color-text);
   outline: none;
+  width: 40%;
 }
 
 .project-type {
@@ -255,6 +255,7 @@ body {
   background-color: var(--color-surface-solid);
   color: var(--color-text);
   outline: none;
+  width: 150%;
 }
 
 .editor-controls {

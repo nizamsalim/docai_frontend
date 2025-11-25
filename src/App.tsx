@@ -16,7 +16,7 @@ export default function App() {
   const { setLoading } = useLoader() as LoaderContextType;
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -117,7 +117,7 @@ export default function App() {
           </div>
 
           {/* Hero Visual */}
-          <div className="relative rounded-2xl border border-slate-700 bg-gradient-to-b from-slate-800/50 to-slate-900/50 p-8 backdrop-blur overflow-hidden">
+          <div className="relative rounded-2xl border border-slate-700 bg-gradient-to-b from-slate-800/50 to-slate-900/50 p-8 backdrop-blur ">
             <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent pointer-events-none"></div>
             <div className="relative">
               <div className="bg-slate-950 rounded-lg p-6 border border-slate-800 mb-4">

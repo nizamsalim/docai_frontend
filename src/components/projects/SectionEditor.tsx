@@ -25,6 +25,12 @@ export default function SectionEditor() {
     }
   }, [section]);
 
+  useEffect(() => {
+    return () => {
+      setIsEditingTitle(false);
+    };
+  }, []);
+
   const handleEditTitleClick = () => {
     setIsEditingTitle(true);
   };

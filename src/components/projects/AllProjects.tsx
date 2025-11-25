@@ -17,7 +17,7 @@ function AllProjects({ projects }: { projects: Project[] }) {
     <div>
       <h3 className="text-xl font-semibold text-white mb-6">All Projects</h3>
 
-      <div className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
+      <div className="bg-slate-900/50 border border-slate-800 rounded-lg">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>

@@ -77,18 +77,21 @@ export default function CreateProjectPage() {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    const formattedData = {
-      title: projectTitle,
-      type: projectType as "pptx" | "docx",
-      sections: sections.map((s) => ({ order: s.order, title: s.title })),
-    };
-    const res = await ProjectService.createProject(formattedData);
-    if (!res.success) {
-      showAlert({ title: res.message, type: AlertType.DANGER });
-      return;
-    }
-    console.log(res);
+    setLoading(
+      true,
+      "Creating project & Generating content\nThis may take a while\nPlease wait"
+    );
+    // const formattedData = {
+    //   title: projectTitle,
+    //   type: projectType as "pptx" | "docx",
+    //   sections: sections.map((s) => ({ order: s.order, title: s.title })),
+    // };
+    // const res = await ProjectService.createProject(formattedData);
+    // if (!res.success) {
+    //   showAlert({ title: res.message, type: AlertType.DANGER });
+    //   return;
+    // }
+    // console.log(res);
     setLoading(false);
 
     // User will implement handleSubmit logic
@@ -97,7 +100,7 @@ export default function CreateProjectPage() {
   const isFormValid = projectType && projectTitle.trim() && sections.length > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-y-auto">
       {/* Navbar */}
       <nav className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-sm border-b border-slate-800">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
