@@ -77,22 +77,25 @@ export default function CreateProjectPage() {
   };
 
   const handleSubmit = async () => {
-    setLoading(
-      true,
-      "Creating project & Generating content\nThis may take a while\nPlease wait"
-    );
-    // const formattedData = {
-    //   title: projectTitle,
-    //   type: projectType as "pptx" | "docx",
-    //   sections: sections.map((s) => ({ order: s.order, title: s.title })),
-    // };
-    // const res = await ProjectService.createProject(formattedData);
-    // if (!res.success) {
-    //   showAlert({ title: res.message, type: AlertType.DANGER });
-    //   return;
-    // }
-    // console.log(res);
+    console.log("flag");
+
+    setLoading(true, [
+      "Creating project & Generating content",
+      "This may take a while",
+      "Please wait",
+    ]);
+    const formattedData = {
+      title: projectTitle,
+      type: projectType as "pptx" | "docx",
+      sections: sections.map((s) => ({ order: s.order, title: s.title })),
+    };
+    const res = await ProjectService.createProject(formattedData);
+    if (!res.success) {
+      showAlert({ title: res.message, type: AlertType.DANGER });
+      return;
+    }
     setLoading(false);
+    navigate(`/projects/${res.project.id}`);
 
     // User will implement handleSubmit logic
   };

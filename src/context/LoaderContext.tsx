@@ -2,8 +2,8 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 
 export interface LoaderContextType {
   isLoading: boolean;
-  setLoading: (loadingValue: boolean, messageValue?: string) => void;
-  message?: string;
+  setLoading: (loadingValue: boolean, messageValue?: string | string[]) => void;
+  message?: string | string[];
 }
 
 const LoaderContext = createContext<LoaderContextType | undefined>(undefined);
@@ -14,8 +14,11 @@ export default function LoaderContextProvider({
   children: ReactNode;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string | undefined>();
-  const setLoading = (loadingValue: boolean, messageValue?: string) => {
+  const [message, setMessage] = useState<string | string[] | undefined>();
+  const setLoading = (
+    loadingValue: boolean,
+    messageValue?: string | string[] | undefined
+  ) => {
     setIsLoading(loadingValue);
     setMessage(!loadingValue ? undefined : messageValue);
   };

@@ -2,6 +2,8 @@ import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 
 export function Loader() {
   const { isLoading, message } = useLoader() as LoaderContextType;
+  console.log({ isLoading });
+
   if (!isLoading) return null;
 
   return (
@@ -13,8 +15,14 @@ export function Loader() {
       </div>
 
       {message && (
-        <p className="text-slate-300 text-sm font-medium animate-pulse">
-          {message}
+        <p className="text-slate-300 text-sm font-medium animate-pulse text-center">
+          {typeof message === "string"
+            ? message
+            : message.map((m) => (
+                <p>
+                  {m} <br />
+                </p>
+              ))}
         </p>
       )}
     </div>

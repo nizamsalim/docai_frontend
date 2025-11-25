@@ -7,7 +7,6 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   const { projects } = useLoaderData() as { projects: Project[] };
-  console.log(projects);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
