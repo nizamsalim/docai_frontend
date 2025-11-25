@@ -1,7 +1,6 @@
 import { useLoaderData, useNavigate } from "react-router";
-import type { Project } from "../../types/project.types";
-import RecentlyAccessedProjects from "../../components/projects/RecentlyAccessedProjects";
-import AllProjects from "../../components/projects/AllProjects";
+import type { Project } from "@/types/project.types";
+import AllProjects from "@/components/projects/AllProjects";
 import { Plus } from "lucide-react";
 
 export default function HomePage() {
@@ -17,7 +16,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1
             className="text-2xl font-bold text-white"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
           >
             DocAI
           </h1>
@@ -49,7 +48,7 @@ export default function HomePage() {
           </h2>
         ) : (
           <>
-            <RecentlyAccessedProjects projects={[projects[0]]} />
+            {/* <RecentlyAccessedProjects projects={[projects[0]]} /> */}
 
             <AllProjects projects={projects} />
           </>

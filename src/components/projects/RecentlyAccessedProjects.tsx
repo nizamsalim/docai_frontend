@@ -1,5 +1,5 @@
 import { ArrowRight, Calendar, FileText, PresentationIcon } from "lucide-react";
-import type { Project } from "../../types/project.types";
+import type { Project } from "@/types/project.types";
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);

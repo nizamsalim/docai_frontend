@@ -1,5 +1,6 @@
 import { FileText, PresentationIcon } from "lucide-react";
-import type { Project } from "../../types/project.types";
+import type { Project } from "@/types/project.types";
+import { useNavigate } from "react-router";
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
@@ -11,6 +12,7 @@ const formatDate = (dateStr: string) => {
 };
 
 function AllProjects({ projects }: { projects: Project[] }) {
+  const navigate = useNavigate();
   return (
     <div>
       <h3 className="text-xl font-semibold text-white mb-6">All Projects</h3>
@@ -41,6 +43,7 @@ function AllProjects({ projects }: { projects: Project[] }) {
                   className={`border-b border-slate-800 hover:bg-slate-800/50 transition-colors cursor-pointer ${
                     index === projects.length - 1 ? "border-b-0" : ""
                   }`}
+                  onClick={() => navigate(`/projects/${project.id}`)}
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">

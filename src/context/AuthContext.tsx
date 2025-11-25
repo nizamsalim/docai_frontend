@@ -5,7 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import AuthService from "../api/auth";
+import AuthService from "@/api/auth";
 import axios from "axios";
 
 interface User {

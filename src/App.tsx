@@ -13,7 +13,7 @@ import { useLoader, type LoaderContextType } from "./context/LoaderContext";
 
 export default function App() {
   const { user, logout } = useAuth() as AuthContextType;
-  const { setIsLoading } = useLoader() as LoaderContextType;
+  const { setLoading } = useLoader() as LoaderContextType;
   const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
@@ -49,9 +49,9 @@ export default function App() {
           {user ? (
             <button
               onClick={async () => {
-                setIsLoading(true);
+                setLoading(true, "Logging out");
                 await logout();
-                setIsLoading(false);
+                setLoading(false);
               }}
               className="flex items-center gap-2 px-4 py-2 border border-red-500 text-red-600 rounded-lg hover:bg-red-50 transition font-medium"
             >

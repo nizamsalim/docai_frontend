@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, FileText } from "lucide-react";
 import { useNavigate } from "react-router";
-import AuthService from "../../api/auth";
+import AuthService from "@/api/auth";
 
 export default function RegisterForm() {
   const navigate = useNavigate();

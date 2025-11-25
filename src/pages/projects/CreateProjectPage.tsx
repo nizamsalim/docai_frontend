@@ -7,14 +7,14 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
-import type { SectionInput } from "../../types/project.types";
-import ProjectService from "../../api/project";
+import type { SectionInput } from "@/types/project.types";
+import ProjectService from "@/api/project";
 import {
   AlertType,
   useAlert,
   type AlertContextType,
-} from "../../context/AlertContext";
-import { useLoader, type LoaderContextType } from "../../context/LoaderContext";
+} from "@/context/AlertContext";
+import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 import { useNavigate } from "react-router";
 
 export default function CreateProjectPage() {
@@ -33,7 +33,7 @@ export default function CreateProjectPage() {
   ]);
 
   const { showAlert } = useAlert() as AlertContextType;
-  const { setIsLoading } = useLoader() as LoaderContextType;
+  const { setLoading } = useLoader() as LoaderContextType;
 
   const uiFunctions = {
     handleAddSection: () => {
@@ -77,7 +77,7 @@ export default function CreateProjectPage() {
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
+    setLoading(true);
     const formattedData = {
       title: projectTitle,
       type: projectType as "pptx" | "docx",
@@ -89,7 +89,7 @@ export default function CreateProjectPage() {
       return;
     }
     console.log(res);
-    setIsLoading(false);
+    setLoading(false);
 
     // User will implement handleSubmit logic
   };

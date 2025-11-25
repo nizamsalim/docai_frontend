@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import GlobalContext from "../../context/GlobalContext";
+import GlobalContext from "@/context/GlobalContext";
 import { Alert } from "./Alert";
 import { Loader } from "./Loader";
 

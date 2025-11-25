@@ -13,6 +13,7 @@ import ProjectService from "./api/project";
 
 import "./index.css";
 import RootLayout from "./components/common/RootLayout";
+import ProjectPage from "./pages/projects/ProjectPage";
 
 // -------------------------------
 // 🔹 Route Config
@@ -63,6 +64,17 @@ const router = createBrowserRouter([
             <CreateProjectPage />
           </ProtectedRoute>
         ),
+      },
+
+      {
+        path: "projects/:projectId",
+        element: (
+          <ProtectedRoute>
+            <ProjectPage />
+          </ProtectedRoute>
+        ),
+        loader: async ({ params }) =>
+          await ProjectService.getProjectById(params.projectId as string),
       },
     ],
   },

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, FileText } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useLoader, type LoaderContextType } from "../../context/LoaderContext";
+import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 import {
   AlertType,
   useAlert,
   type AlertContextType,
-} from "../../context/AlertContext";
-import { useAuth, type AuthContextType } from "../../context/AuthContext";
+} from "@/context/AlertContext";
+import { useAuth, type AuthContextType } from "@/context/AuthContext";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function LoginForm() {
     password: "nizam123",
   });
 
-  const { setIsLoading } = useLoader() as LoaderContextType;
+  const { setLoading } = useLoader() as LoaderContextType;
   const { showAlert } = useAlert() as AlertContextType;
   const { login } = useAuth() as AuthContextType;
 
@@ -30,13 +30,13 @@ export default function LoginForm() {
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
+    setLoading(true, "Logging in");
     const res = (await login(formData.username, formData.password)) as {
       success?: boolean;
       message?: string;
     };
 
-    setIsLoading(false);
+    setLoading(false);
     if (!res.success) {
       showAlert({ type: AlertType.DANGER, title: res.message! });
       return;
