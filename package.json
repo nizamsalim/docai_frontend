@@ -12,6 +12,10 @@
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.13.2",
+    "docx": "^7.1.0",
+    "file-saver": "^2.0.5",
+    "html-docx-js": "^0.3.1",
+    "html-to-docx": "^1.8.0",
     "lucide-react": "^0.554.0",
     "marked": "^17.0.1",
     "react": "^19.2.0",
@@ -22,6 +26,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/file-saver": "^2.0.7",
+    "@types/html-docx-js": "^0.3.4",
+    "@types/html-to-docx": "^1.8.0",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",

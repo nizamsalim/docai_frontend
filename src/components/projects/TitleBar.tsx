@@ -8,6 +8,7 @@ import {
   type SectionContextType,
 } from "@/context/SectionContext";
 import { StaticLoader } from "../common/Loader";
+import { generateWord } from "@/utils/generateWord";
 
 export default function TitleBar() {
   const { project, setCurrentProject } = useSectionData() as SectionContextType;
@@ -32,6 +33,7 @@ export default function TitleBar() {
 
   const handleDownload = () => {
     console.log("Download project");
+    generateWord({ title: project.title, sections: project.sections! });
     // Logic will be handled by parent
   };
 

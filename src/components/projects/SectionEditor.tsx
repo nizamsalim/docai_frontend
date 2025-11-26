@@ -20,16 +20,12 @@ export default function SectionEditor() {
 
   useEffect(() => {
     if (section) {
+      console.log("flag");
+
       setEditedTitle(section.title);
       setContent(section.content);
     }
   }, [section]);
-
-  useEffect(() => {
-    return () => {
-      setIsEditingTitle(false);
-    };
-  }, []);
 
   const handleEditTitleClick = () => {
     setIsEditingTitle(true);

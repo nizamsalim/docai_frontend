@@ -22,15 +22,8 @@ export default function CreateProjectPage() {
   const [projectType, setProjectType] = useState<"pptx" | "docx" | null>(
     "docx"
   );
-  const [projectTitle, setProjectTitle] = useState(
-    "Advent of EV industry in India"
-  );
-  const [sections, setSections] = useState<SectionInput[]>([
-    { order: 0, title: "Introduction" },
-    { order: 1, title: "Current EV scenario in India" },
-    { order: 2, title: "Potential of EVs in Indian market" },
-    { order: 3, title: "Conclusion" },
-  ]);
+  const [projectTitle, setProjectTitle] = useState("");
+  const [sections, setSections] = useState<SectionInput[]>([]);
 
   const { showAlert } = useAlert() as AlertContextType;
   const { setLoading } = useLoader() as LoaderContextType;
