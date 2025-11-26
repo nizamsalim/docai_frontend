@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "@/styles/project.css";
 import SectionService from "@/api/section";
 import {
@@ -6,33 +6,30 @@ import {
   type SectionContextType,
 } from "@/context/SectionContext";
 import { StaticLoader } from "../common/Loader";
+import type { Refinement } from "@/types/project.types";
+import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
 export default function ChatWindow() {
   const { section, setCurrentSection } = useSectionData() as SectionContextType;
+  console.log({ section });
+
   const [selectedModel, setSelectedModel] = useState("gemini");
-  const [messages, setMessages] = useState([
-    {
-      id: Date.now(),
-      text: "Hello. How may I assist you today",
-      sender: "assistant",
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Refinement[]>();
   const [inputText, setInputText] = useState("");
   const [isLoading, setisLoading] = useState(false);
+
+  useEffect(() => {
+    if (section) {
+      setMessages(section.refinements!);
+    }
+
+    return () => {};
+  }, [section]);
 
   const handleSendMessage = async () => {
     setisLoading(true);
     if (!inputText.trim()) return;
 
-    const newMessage = {
-      id: Date.now(),
-      text: inputText,
-      sender: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages([...messages, newMessage]);
     // onRefinementRequest(inputText, selectedModel);
     // ProjectService.refine
     const res = await SectionService.refine(section!.id, {
@@ -60,7 +57,7 @@ export default function ChatWindow() {
       <StaticLoader isVisible={isLoading} />
 
       <div className="chat-messages">
-        {messages.length === 0 ? (
+        {messages && messages!.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">💬</div>
             <div className="empty-state-text">
@@ -68,15 +65,38 @@ export default function ChatWindow() {
             </div>
           </div>
         ) : (
-          messages.map((message) => (
-            <div key={message.id} className={`message ${message.sender}`}>
-              {message.text}
+          messages &&
+          messages!.map((message) => (
+            <div key={message.id} className={`message user`}>
+              {message.prompt}
             </div>
           ))
         )}
       </div>
 
       <div className="chat-input-container">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-transparent hover:bg-gray-30 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            aria-pressed="false"
+            aria-label="Like"
+          >
+            <ThumbsUpIcon />
+            <span className="text-sm font-medium">Like</span>
+          </button>
+
+          <button
+            type="button"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-transparent hover:bg-gray-30 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            aria-pressed="false"
+            aria-label="Dislike"
+          >
+            <ThumbsDownIcon />
+            <span className="text-sm font-medium">Dislike</span>
+          </button>
+        </div>
+
         <textarea
           className="chat-input"
           value={inputText}

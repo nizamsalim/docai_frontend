@@ -13,12 +13,20 @@ export interface ProjectInput {
   sections: SectionInput[];
 }
 
+export interface Refinement {
+  id: string;
+  prompt: string;
+  rating?: string;
+  sectionId: string;
+}
+
 export interface Section {
   id: string;
   title: string;
   content: string;
   order: number;
   projectId: string;
+  refinements?: Refinement[];
 }
 
 export interface Project {
