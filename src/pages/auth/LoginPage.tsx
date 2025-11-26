@@ -13,8 +13,8 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: "nizamsalim",
-    password: "nizam123",
+    username: "",
+    password: "",
   });
 
   const { setLoading } = useLoader() as LoaderContextType;
