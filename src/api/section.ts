@@ -16,6 +16,8 @@ export default class SectionService {
       return res.data;
     } catch (err: any) {
       if (err.response) {
+        console.log(err.response.data);
+
         return err.response.data;
       }
       return {

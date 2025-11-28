@@ -11,7 +11,6 @@ import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
 export default function ChatWindow() {
   const { section, setCurrentSection } = useSectionData() as SectionContextType;
-  console.log({ section });
 
   const [selectedModel, setSelectedModel] = useState("gemini");
   const [messages, setMessages] = useState<Refinement[]>();

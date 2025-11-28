@@ -21,9 +21,8 @@ export default function SectionContextProvider({
   const [sections, setSections] = useState<Section[]>([]);
   const [project, setProject] = useState<Project | undefined>();
   const setCurrentSection = (section?: Section, source: string = "title") => {
-    setSection(section);
-
     if (!section) return;
+    setSection(section);
 
     if (source === "title") {
       setSections((prev) =>

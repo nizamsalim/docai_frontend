@@ -5,18 +5,21 @@ import {
   useSectionData,
   type SectionContextType,
 } from "@/context/SectionContext";
-import { CheckIcon, EditIcon, SaveIcon } from "lucide-react";
+import { CheckIcon, Edit, EditIcon, SaveIcon } from "lucide-react";
 import SectionService from "@/api/section";
 import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
+import { Oval } from "react-loader-spinner";
 
 export default function SectionEditor() {
   const { section, setCurrentSection } = useSectionData() as SectionContextType;
   const { setLoading } = useLoader() as LoaderContextType;
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(section?.title || "");
-  const [content, setContent] = useState(section?.content || "");
+  const [editedTitle, setEditedTitle] = useState("");
+  const [content, setContent] = useState("");
   const [mode, setMode] = useState("code"); // 'code' or 'preview'
+
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (section) {
@@ -32,11 +35,13 @@ export default function SectionEditor() {
   };
 
   const handleSaveTitleClick = async () => {
+    setIsSaving(true);
     const res = await SectionService.updateSection(section?.id as string, {
       title: editedTitle,
     });
     setCurrentSection(res.section, "title");
     setIsEditingTitle(false);
+    setIsSaving(false);
   };
 
   const handleSaveContent = async () => {
@@ -84,7 +89,15 @@ export default function SectionEditor() {
             }
             title={isEditingTitle ? "Save title" : "Edit title"}
           >
-            {isEditingTitle ? <CheckIcon /> : <EditIcon />}
+            {isEditingTitle ? (
+              isSaving ? (
+                <Oval visible={true} height={25} width={25} strokeWidth={5} />
+              ) : (
+                <CheckIcon />
+              )
+            ) : (
+              <EditIcon />
+            )}
           </button>
         </div>
       </div>
