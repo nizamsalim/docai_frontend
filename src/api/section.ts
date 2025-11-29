@@ -28,9 +28,30 @@ export default class SectionService {
   }
   static async refine(sectionId: string, body: RefineSectionInput) {
     try {
-      const res = await this.axios.post(`/${sectionId}`, body, {
+      const res = await this.axios.post(`/${sectionId}/refinements`, body, {
         withCredentials: true,
       });
+      return res.data;
+    } catch (err: any) {
+      if (err.response) {
+        return err.response.data;
+      }
+      return {
+        success: false,
+        message: "Something went wrong",
+      };
+    }
+  }
+
+  static async addComment(sectionId: string, comment: string) {
+    try {
+      const res = await this.axios.post(
+        `/${sectionId}/comments`,
+        { content: comment },
+        {
+          withCredentials: true,
+        }
+      );
       return res.data;
     } catch (err: any) {
       if (err.response) {

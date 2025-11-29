@@ -5,20 +5,23 @@ import {
   useSectionData,
   type SectionContextType,
 } from "@/context/SectionContext";
-import { CheckIcon, EditIcon, SaveIcon } from "lucide-react";
+import { CheckIcon, EditIcon, MessageCircleIcon, SaveIcon } from "lucide-react";
 import SectionService from "@/api/section";
 import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 import { Oval } from "react-loader-spinner";
 import { StaticLoader } from "../common/Loader";
+import Comments from "./Comments";
 
 export default function SectionEditor() {
-  const { section, setCurrentSection } = useSectionData() as SectionContextType;
+  const { section, setCurrentSection, setComments } =
+    useSectionData() as SectionContextType;
   const { setLoading } = useLoader() as LoaderContextType;
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
   const [content, setContent] = useState("");
   const [mode, setMode] = useState("code"); // 'code' or 'preview'
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -26,6 +29,7 @@ export default function SectionEditor() {
     if (section) {
       setEditedTitle(section.title);
       setContent(section.content);
+      setComments(section.comments!);
     }
   }, [section]);
 
@@ -101,6 +105,15 @@ export default function SectionEditor() {
             )}
           </button>
         </div>
+        <button
+          className="icon-btn"
+          onClick={() => {
+            setIsCommentsOpen(true);
+          }}
+          title="View comments"
+        >
+          Comments <MessageCircleIcon className="ml-2" />
+        </button>
       </div>
 
       <div className="editor-controls">
@@ -141,6 +154,7 @@ export default function SectionEditor() {
           />
         )}
       </div>
+      {isCommentsOpen && <Comments onClose={() => setIsCommentsOpen(false)} />}
     </div>
   );
 }

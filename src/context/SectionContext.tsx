@@ -1,5 +1,5 @@
 import type { Project } from "@/types/project.types";
-import type { Refinement, Section } from "@/types/section.types";
+import type { Comment, Refinement, Section } from "@/types/section.types";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export interface SectionContextType {
@@ -11,6 +11,8 @@ export interface SectionContextType {
   setCurrentProject: (project?: Project) => void;
   refinement?: Refinement;
   setCurrentRefinement: (refinement?: Refinement) => void;
+  comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 }
 
 const SectionContext = createContext<SectionContextType | undefined>(undefined);
@@ -24,6 +26,7 @@ export default function SectionContextProvider({
   const [sections, setSections] = useState<Section[]>([]);
   const [project, setProject] = useState<Project | undefined>();
   const [refinement, setRefinement] = useState<Refinement | undefined>();
+  const [comments, setComments] = useState<Comment[]>([]);
   const setCurrentSection = (section?: Section, source: string = "title") => {
     if (!section) return;
     setSection(section);
@@ -51,6 +54,8 @@ export default function SectionContextProvider({
         setCurrentProject,
         refinement,
         setCurrentRefinement,
+        comments,
+        setComments,
       }}
     >
       {children}
