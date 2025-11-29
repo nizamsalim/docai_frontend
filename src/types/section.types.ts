@@ -17,6 +17,12 @@ export interface Refinement {
   afterContent: string;
 }
 
+export interface Comment {
+  id: string;
+  content: string;
+  sectionId: string;
+}
+
 export interface Section {
   id: string;
   title: string;
@@ -24,6 +30,7 @@ export interface Section {
   order: number;
   projectId: string;
   refinements?: Refinement[];
+  comments?: Comment[];
 }
 
 export interface SectionInput {

@@ -19,9 +19,7 @@ import { useNavigate } from "react-router";
 
 export default function CreateProjectPage() {
   const navigate = useNavigate();
-  const [projectType, setProjectType] = useState<"pptx" | "docx" | null>(
-    "docx"
-  );
+  const [projectType, setProjectType] = useState<"pptx" | "docx" | null>(null);
   const [projectTitle, setProjectTitle] = useState("");
   const [sections, setSections] = useState<SectionInput[]>([]);
 

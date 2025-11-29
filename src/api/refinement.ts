@@ -7,7 +7,7 @@ export default class RefinementService {
 
   static async rateRefinement(refinementId: string, rating: string) {
     try {
-      const res = await this.axios.get(`/${refinementId}/${rating}`, {
+      const res = await this.axios.patch(`/${refinementId}/${rating}`, {
         withCredentials: true,
       });
       return res.data;
