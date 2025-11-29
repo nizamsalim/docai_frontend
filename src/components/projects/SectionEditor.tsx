@@ -5,10 +5,11 @@ import {
   useSectionData,
   type SectionContextType,
 } from "@/context/SectionContext";
-import { CheckIcon, Edit, EditIcon, SaveIcon } from "lucide-react";
+import { CheckIcon, EditIcon, SaveIcon } from "lucide-react";
 import SectionService from "@/api/section";
 import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 import { Oval } from "react-loader-spinner";
+import { StaticLoader } from "../common/Loader";
 
 export default function SectionEditor() {
   const { section, setCurrentSection } = useSectionData() as SectionContextType;
@@ -23,12 +24,12 @@ export default function SectionEditor() {
 
   useEffect(() => {
     if (section) {
-      console.log("flag");
-
       setEditedTitle(section.title);
       setContent(section.content);
     }
   }, [section]);
+
+  if (!section) return <StaticLoader isVisible={true} />;
 
   const handleEditTitleClick = () => {
     setIsEditingTitle(true);

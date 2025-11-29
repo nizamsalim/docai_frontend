@@ -11,11 +11,11 @@ import {
 } from "@/context/SectionContext";
 import { useEffect } from "react";
 import { StaticLoader } from "@/components/common/Loader";
+import RefinementModal from "@/components/projects/RefinementModal";
 
 export default function ProjectPage() {
   const { project } = useLoaderData() as { project: Project };
   if (!project) return <StaticLoader isVisible={true} />;
-  console.log({ project });
 
   const { setCurrentSection, setSections, setCurrentProject } =
     useSectionData() as SectionContextType;
@@ -34,6 +34,8 @@ export default function ProjectPage() {
   return (
     <div className="app-container">
       <TitleBar />
+
+      <RefinementModal />
 
       <div className="main-content">
         <SectionList />

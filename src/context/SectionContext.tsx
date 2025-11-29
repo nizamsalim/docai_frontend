@@ -1,4 +1,5 @@
-import type { Project, Section } from "@/types/project.types";
+import type { Project } from "@/types/project.types";
+import type { Refinement, Section } from "@/types/section.types";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export interface SectionContextType {
@@ -8,6 +9,8 @@ export interface SectionContextType {
   setSections: React.Dispatch<React.SetStateAction<Section[]>>;
   project?: Project;
   setCurrentProject: (project?: Project) => void;
+  refinement?: Refinement;
+  setCurrentRefinement: (refinement?: Refinement) => void;
 }
 
 const SectionContext = createContext<SectionContextType | undefined>(undefined);
@@ -20,6 +23,7 @@ export default function SectionContextProvider({
   const [section, setSection] = useState<Section | undefined>();
   const [sections, setSections] = useState<Section[]>([]);
   const [project, setProject] = useState<Project | undefined>();
+  const [refinement, setRefinement] = useState<Refinement | undefined>();
   const setCurrentSection = (section?: Section, source: string = "title") => {
     if (!section) return;
     setSection(section);
@@ -33,6 +37,9 @@ export default function SectionContextProvider({
   const setCurrentProject = (project?: Project) => {
     setProject((_) => project);
   };
+  const setCurrentRefinement = (refinement?: Refinement) => {
+    setRefinement(refinement);
+  };
   return (
     <SectionContext.Provider
       value={{
@@ -42,6 +49,8 @@ export default function SectionContextProvider({
         setSections,
         project,
         setCurrentProject,
+        refinement,
+        setCurrentRefinement,
       }}
     >
       {children}

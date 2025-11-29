@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "@/styles/project.css";
 import { CheckIcon, DownloadIcon, EditIcon } from "lucide-react";
 import { Link } from "react-router";
@@ -13,10 +13,14 @@ import { generateWord } from "@/utils/generateWord";
 export default function TitleBar() {
   const { project, setCurrentProject } = useSectionData() as SectionContextType;
 
-  if (!project) return <StaticLoader isVisible={true} />;
-
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(project.title);
+  const [editedTitle, setEditedTitle] = useState("");
+
+  useEffect(() => {
+    if (project) setEditedTitle(project.title);
+  }, [project]);
+
+  if (!project) return <StaticLoader isVisible={true} />;
 
   const handleEditClick = () => {
     setIsEditingTitle(true);

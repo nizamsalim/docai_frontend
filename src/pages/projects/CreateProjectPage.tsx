@@ -7,7 +7,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
-import type { SectionInput } from "@/types/project.types";
+import type { SectionInput } from "@/types/section.types";
 import ProjectService from "@/api/project";
 import {
   AlertType,

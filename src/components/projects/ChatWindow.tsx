@@ -6,8 +6,9 @@ import {
   type SectionContextType,
 } from "@/context/SectionContext";
 import { StaticLoader } from "../common/Loader";
-import type { Refinement } from "@/types/project.types";
-import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
+import type { Refinement } from "@/types/section.types";
+import RefinementMessage from "./RefinementMessage";
+import RefinementService from "@/api/refinement";
 
 export default function ChatWindow() {
   const { section, setCurrentSection } = useSectionData() as SectionContextType;
@@ -25,9 +26,21 @@ export default function ChatWindow() {
     return () => {};
   }, [section]);
 
+  const handleRateRefinement = async (refinementId: string, rating: string) => {
+    const res = await RefinementService.rateRefinement(refinementId, rating);
+
+    setMessages((prev) => {
+      return prev?.map((ref) =>
+        ref.id === res.refinement.id
+          ? { ...ref, rating: res.refinement.rating }
+          : ref
+      );
+    });
+  };
+
   const handleSendMessage = async () => {
-    setisLoading(true);
     if (!inputText.trim()) return;
+    setisLoading(true);
 
     // onRefinementRequest(inputText, selectedModel);
     // ProjectService.refine
@@ -66,36 +79,16 @@ export default function ChatWindow() {
         ) : (
           messages &&
           messages!.map((message) => (
-            <div key={message.id} className={`message user`}>
-              {message.prompt}
-            </div>
+            <RefinementMessage
+              key={message.id}
+              refinement={message}
+              handleRateRefinement={handleRateRefinement}
+            />
           ))
         )}
       </div>
 
       <div className="chat-input-container">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-transparent hover:bg-gray-30 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            aria-pressed="false"
-            aria-label="Like"
-          >
-            <ThumbsUpIcon />
-            <span className="text-sm font-medium">Like</span>
-          </button>
-
-          <button
-            type="button"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-transparent hover:bg-gray-30 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            aria-pressed="false"
-            aria-label="Dislike"
-          >
-            <ThumbsDownIcon />
-            <span className="text-sm font-medium">Dislike</span>
-          </button>
-        </div>
-
         <textarea
           className="chat-input"
           value={inputText}
