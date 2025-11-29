@@ -864,3 +864,32 @@ body {
     max-width: 100%;
   }
 }
+
+.comment-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.comment-content {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.comment-edit-input {
+  flex: 1;
+  font-size: 14px;
+  padding: 6px 8px;
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-solid);
+  color: var(--color-text);
+  resize: vertical;
+}

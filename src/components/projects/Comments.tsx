@@ -3,20 +3,51 @@ import {
   useSectionData,
   type SectionContextType,
 } from "@/context/SectionContext";
-import { X } from "lucide-react";
+import { X, Trash2, Pencil, Check, XCircle } from "lucide-react";
 import { useState } from "react";
 
 function Comments({ onClose }: { onClose: () => void }) {
   const { section, comments, setComments } =
     useSectionData() as SectionContextType;
+
   const [newComment, setNewComment] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingValue, setEditingValue] = useState("");
 
   if (!section) return null;
+
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
     const res = await SectionService.addComment(section!.id, newComment);
     setComments((prev) => [...prev, res.comment]);
     setNewComment("");
+  };
+
+  const startEdit = (id: string, current: string) => {
+    setEditingId(id);
+    setEditingValue(current);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditingValue("");
+  };
+
+  const saveEdit = async (id: string) => {
+    if (!editingValue.trim()) return;
+    const res = await SectionService.updateComment(
+      section.id,
+      id,
+      editingValue
+    );
+    setComments((prev) => prev.map((c) => (c.id === id ? res.comment : c)));
+    setEditingId(null);
+    setEditingValue("");
+  };
+
+  const deleteComment = async (id: string) => {
+    await SectionService.deleteComment(section.id, id);
+    setComments((prev) => prev.filter((c) => c.id !== id));
   };
 
   return (
@@ -34,11 +65,63 @@ function Comments({ onClose }: { onClose: () => void }) {
 
         <div className="comments-list">
           {comments && comments.length > 0 ? (
-            comments.map((c) => (
-              <div key={c.id} className="comment-item">
-                <p className="comment-content">{c.content}</p>
-              </div>
-            ))
+            comments.map((c) => {
+              const isEditing = editingId === c.id;
+              return (
+                <div key={c.id} className="comment-item">
+                  <div className="comment-row">
+                    {isEditing ? (
+                      <textarea
+                        className="comment-edit-input"
+                        rows={2}
+                        value={editingValue}
+                        onChange={(e) => setEditingValue(e.target.value)}
+                      />
+                    ) : (
+                      <p className="comment-content">{c.content}</p>
+                    )}
+
+                    <div className="comment-actions">
+                      {isEditing ? (
+                        <>
+                          <button
+                            className="icon-btn"
+                            title="Save"
+                            onClick={() => saveEdit(c.id)}
+                          >
+                            <Check size={16} />
+                          </button>
+                          <button
+                            className="icon-btn"
+                            title="Cancel"
+                            onClick={cancelEdit}
+                          >
+                            <XCircle size={16} />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="icon-btn"
+                            title="Edit comment"
+                            onClick={() => startEdit(c.id, c.content)}
+                          >
+                            <Pencil size={16} />
+                          </button>
+                          <button
+                            className="icon-btn"
+                            title="Delete comment"
+                            onClick={() => deleteComment(c.id)}
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             <p className="comments-empty">No comments yet.</p>
           )}

@@ -2,7 +2,6 @@ import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 
 export function Loader() {
   const { isLoading, message } = useLoader() as LoaderContextType;
-  console.log({ isLoading });
 
   if (!isLoading) return null;
 
