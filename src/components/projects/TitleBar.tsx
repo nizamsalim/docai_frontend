@@ -9,9 +9,12 @@ import {
 } from "@/context/SectionContext";
 import { StaticLoader } from "../common/Loader";
 import { generateWord } from "@/utils/generateWord";
+import { useAlert, type AlertContextType } from "@/context/AlertContext";
+import type { APIError } from "@/types/api.types";
 
 export default function TitleBar() {
   const { project, setCurrentProject } = useSectionData() as SectionContextType;
+  const { showAlert } = useAlert() as AlertContextType;
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
@@ -28,11 +31,15 @@ export default function TitleBar() {
 
   const handleSaveClick = async () => {
     // ProjectService.saveTitle
-    const res = await ProjectService.updateProject(project!.id, {
-      title: editedTitle,
-    });
-    setCurrentProject(res.project);
-    setIsEditingTitle(false);
+    try {
+      const res = await ProjectService.updateProject(project!.id, {
+        title: editedTitle,
+      });
+      setCurrentProject(res.project);
+      setIsEditingTitle(false);
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
   };
 
   const handleDownload = () => {

@@ -9,13 +9,10 @@ import {
 } from "lucide-react";
 import type { SectionInput } from "@/types/section.types";
 import ProjectService from "@/api/project";
-import {
-  AlertType,
-  useAlert,
-  type AlertContextType,
-} from "@/context/AlertContext";
+import { useAlert, type AlertContextType } from "@/context/AlertContext";
 import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 import { useNavigate } from "react-router";
+import type { APIError } from "@/types/api.types";
 
 export default function CreateProjectPage() {
   const navigate = useNavigate();
@@ -68,8 +65,6 @@ export default function CreateProjectPage() {
   };
 
   const handleSubmit = async () => {
-    console.log("flag");
-
     setLoading(true, [
       "Creating project & Generating content",
       "This may take a while",
@@ -80,25 +75,28 @@ export default function CreateProjectPage() {
       type: projectType as "pptx" | "docx",
       sections: sections.map((s) => ({ order: s.order, title: s.title })),
     };
-    const res = await ProjectService.createProject(formattedData);
-    if (!res.success) {
-      showAlert({ title: res.message, type: AlertType.DANGER });
-      return;
+    try {
+      const res = await ProjectService.createProject(formattedData);
+
+      navigate(`/projects/${res.project.id}`);
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message as string);
     }
     setLoading(false);
-    navigate(`/projects/${res.project.id}`);
-
-    // User will implement handleSubmit logic
   };
 
   const handleAIGeneration = async () => {
-    setLoading(true, "Generating sections");
     if (!projectTitle.trim()) return;
-    const res = await ProjectService.generateProjectSections({
-      title: projectTitle,
-      type: projectType as string,
-    });
-    setSections((_) => res.sections);
+    setLoading(true, "Generating sections");
+    try {
+      const res = await ProjectService.generateProjectSections({
+        title: projectTitle,
+        type: projectType as string,
+      });
+      setSections((_) => res.sections);
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message as string);
+    }
     setLoading(false);
   };
 

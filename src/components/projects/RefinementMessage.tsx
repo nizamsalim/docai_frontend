@@ -41,11 +41,11 @@ export default function RefinementMessage({
             onClick={() => handleRateRefinement(refinement.id, "like")}
             className={`group relative inline-flex h-8 w-8 items-center justify-center rounded-full border bg-slate-900/70 text-slate-400 transition-colors ${
               refinement.rating === "like"
-                ? "border-emerald-500/80 text-emerald-400 bg-emerald-500/10"
+                ? "border-emerald-500/80 text-emerald-400 bg-emerald-500/20"
                 : "border-slate-700/70 hover:border-emerald-500/70 hover:bg-emerald-500/10 hover:text-emerald-400"
             }`}
           >
-            <ThumbsUpIcon className="h-4 w-4" />
+            <ThumbsUpIcon className="h-4 w-4" color="#b7b7b7ff" />
           </button>
 
           <button
@@ -53,11 +53,11 @@ export default function RefinementMessage({
             onClick={() => handleRateRefinement(refinement.id, "dislike")}
             className={`group relative inline-flex h-8 w-8 items-center justify-center rounded-full border bg-slate-900/70 text-slate-400 transition-colors ${
               refinement.rating === "dislike"
-                ? "border-red-500/80 text-red-400 bg-red-500/10"
+                ? "border-red-500/80 text-red-400 bg-red-500/20"
                 : "border-slate-700/70 hover:border-red-500/70 hover:bg-red-500/10 hover:text-red-400"
             }`}
           >
-            <ThumbsDownIcon className="h-4 w-4" />
+            <ThumbsDownIcon className="h-4 w-4" color="#b7b7b7ff" />
           </button>
         </div>
       </div>

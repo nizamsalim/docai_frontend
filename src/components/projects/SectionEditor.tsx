@@ -11,11 +11,14 @@ import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
 import { Oval } from "react-loader-spinner";
 import { StaticLoader } from "../common/Loader";
 import Comments from "./Comments";
+import type { APIError } from "@/types/api.types";
+import { useAlert, type AlertContextType } from "@/context/AlertContext";
 
 export default function SectionEditor() {
   const { section, setCurrentSection, setComments } =
     useSectionData() as SectionContextType;
   const { setLoading } = useLoader() as LoaderContextType;
+  const { showAlert } = useAlert() as AlertContextType;
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
@@ -41,20 +44,29 @@ export default function SectionEditor() {
 
   const handleSaveTitleClick = async () => {
     setIsSaving(true);
-    const res = await SectionService.updateSection(section?.id as string, {
-      title: editedTitle,
-    });
-    setCurrentSection(res.section, "title");
+    try {
+      const res = await SectionService.updateSection(section?.id as string, {
+        title: editedTitle,
+      });
+
+      setCurrentSection(res.section, "title");
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
     setIsEditingTitle(false);
     setIsSaving(false);
   };
 
   const handleSaveContent = async () => {
     setLoading(true, "Saving content");
-    const res = await SectionService.updateSection(section?.id as string, {
-      content: content,
-    });
-    setCurrentSection(res.section, "content");
+    try {
+      const res = await SectionService.updateSection(section?.id as string, {
+        content: content,
+      });
+      setCurrentSection(res.section, "content");
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
     setLoading(false);
   };
 

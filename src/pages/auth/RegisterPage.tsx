@@ -23,7 +23,6 @@ export default function RegisterForm() {
   };
 
   const handleSubmit = async () => {
-    console.log("Register submitted:", formData);
     const res = await AuthService.register(formData);
     if (res.success) {
     } else {

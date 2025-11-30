@@ -29,20 +29,22 @@ export default class AuthService {
   }
 
   static async login(body: LoginBody) {
-    try {
-      const { data } = await this.axios.post("/login", body, {
-        withCredentials: true,
-      });
-      return data;
-    } catch (error: any) {
-      if (error.response) {
-        return error.response.data;
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { data } = await this.axios.post("/login", body, {
+          withCredentials: true,
+        });
+        resolve(data);
+      } catch (error: any) {
+        if (error.response) {
+          reject(error.response.data);
+        }
+        reject({
+          success: false,
+          message: "Something went wrong",
+        });
       }
-      return {
-        success: false,
-        message: "Something went wrong",
-      };
-    }
+    });
   }
 
   static async logout() {

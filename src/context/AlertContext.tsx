@@ -14,7 +14,7 @@ export enum AlertType {
 export interface AlertContextType {
   alert: Alert;
   isVisible: boolean;
-  showAlert: (inputAlert: Alert, duration?: number) => void;
+  showAlert: (message?: string, type?: AlertType, duration?: number) => void;
 }
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
@@ -27,8 +27,12 @@ const AlertContextProvider = ({ children }: Props) => {
   const [alert, setAlert] = useState<Alert>({ title: null, type: null });
   const [isVisible, setIsVisible] = useState(false);
 
-  const showAlert = (inputAlert: Alert, duration: number = 2000) => {
-    setAlert(inputAlert);
+  const showAlert = (
+    message?: string,
+    type: AlertType = AlertType.DANGER,
+    duration: number = 2000
+  ) => {
+    setAlert({ title: message as string, type });
     setIsVisible(true);
     setTimeout(() => {
       setIsVisible(false);

@@ -2,12 +2,9 @@ import { useState } from "react";
 import { Eye, EyeOff, ArrowRight, FileText } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLoader, type LoaderContextType } from "@/context/LoaderContext";
-import {
-  AlertType,
-  useAlert,
-  type AlertContextType,
-} from "@/context/AlertContext";
+import { useAlert, type AlertContextType } from "@/context/AlertContext";
 import { useAuth, type AuthContextType } from "@/context/AuthContext";
+import type { APIError } from "@/types/api.types";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -31,17 +28,16 @@ export default function LoginForm() {
 
   const handleSubmit = async () => {
     setLoading(true, "Logging in");
-    const res = (await login(formData.username, formData.password)) as {
-      success?: boolean;
-      message?: string;
-    };
-
-    setLoading(false);
-    if (!res.success) {
-      showAlert({ type: AlertType.DANGER, title: res.message! });
-      return;
+    try {
+      (await login(formData.username, formData.password)) as {
+        success?: boolean;
+        message?: string;
+      };
+      navigate("/", { replace: true });
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
     }
-    navigate("/", { replace: true });
+    setLoading(false);
   };
 
   return (

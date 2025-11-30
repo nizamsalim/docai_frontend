@@ -1,12 +1,15 @@
 import SectionService from "@/api/section";
+import { useAlert, type AlertContextType } from "@/context/AlertContext";
 import {
   useSectionData,
   type SectionContextType,
 } from "@/context/SectionContext";
+import type { APIError } from "@/types/api.types";
 import { X, Trash2, Pencil, Check, XCircle } from "lucide-react";
 import { useState } from "react";
 
 function Comments({ onClose }: { onClose: () => void }) {
+  const { showAlert } = useAlert() as AlertContextType;
   const { section, comments, setComments } =
     useSectionData() as SectionContextType;
 
@@ -18,8 +21,12 @@ function Comments({ onClose }: { onClose: () => void }) {
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
-    const res = await SectionService.addComment(section!.id, newComment);
-    setComments((prev) => [...prev, res.comment]);
+    try {
+      const res = await SectionService.addComment(section!.id, newComment);
+      setComments((prev) => [...prev, res.comment]);
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
     setNewComment("");
   };
 
@@ -35,12 +42,16 @@ function Comments({ onClose }: { onClose: () => void }) {
 
   const saveEdit = async (id: string) => {
     if (!editingValue.trim()) return;
-    const res = await SectionService.updateComment(
-      section.id,
-      id,
-      editingValue
-    );
-    setComments((prev) => prev.map((c) => (c.id === id ? res.comment : c)));
+    try {
+      const res = await SectionService.updateComment(
+        section.id,
+        id,
+        editingValue
+      );
+      setComments((prev) => prev.map((c) => (c.id === id ? res.comment : c)));
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
     setEditingId(null);
     setEditingValue("");
   };

@@ -47,7 +47,7 @@ export default function RevisionModal() {
             {/* Rating controls */}
             <div className="flex items-center gap-2">
               <span className="text-xs text-slate-400 uppercase tracking-wide">
-                Rate
+                Rating
               </span>
               <div
                 className={`group relative inline-flex h-8 w-8 items-center justify-center rounded-full border bg-slate-900/70 text-slate-400 transition-colors ${

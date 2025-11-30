@@ -9,8 +9,11 @@ import { StaticLoader } from "../common/Loader";
 import type { Refinement } from "@/types/section.types";
 import RefinementMessage from "./RefinementMessage";
 import RefinementService from "@/api/refinement";
+import type { APIError } from "@/types/api.types";
+import { useAlert, type AlertContextType } from "@/context/AlertContext";
 
 export default function ChatWindow() {
+  const { showAlert } = useAlert() as AlertContextType;
   const { section, setCurrentSection } = useSectionData() as SectionContextType;
 
   const [selectedModel, setSelectedModel] = useState("gemini");
@@ -27,28 +30,32 @@ export default function ChatWindow() {
   }, [section]);
 
   const handleRateRefinement = async (refinementId: string, rating: string) => {
-    const res = await RefinementService.rateRefinement(refinementId, rating);
-
-    setMessages((prev) => {
-      return prev?.map((ref) =>
-        ref.id === res.refinement.id
-          ? { ...ref, rating: res.refinement.rating }
-          : ref
-      );
-    });
+    try {
+      const res = await RefinementService.rateRefinement(refinementId, rating);
+      setMessages((prev) => {
+        return prev?.map((ref) =>
+          ref.id === res.refinement.id
+            ? { ...ref, rating: res.refinement.rating }
+            : ref
+        );
+      });
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
   };
 
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
     setisLoading(true);
-
-    // onRefinementRequest(inputText, selectedModel);
-    // ProjectService.refine
-    const res = await SectionService.refine(section!.id, {
-      userInstruction: inputText,
-      modelName: selectedModel,
-    });
-    setCurrentSection(res.section);
+    try {
+      const res = await SectionService.refine(section!.id, {
+        userInstruction: inputText,
+        modelName: selectedModel,
+      });
+      setCurrentSection(res.section);
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
     setInputText("");
     setisLoading(false);
   };
