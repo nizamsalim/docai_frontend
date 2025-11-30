@@ -45,7 +45,10 @@ export default function AuthContextProvider({
   }, []);
 
   const login = async (username: string, password: string) => {
-    const res = await AuthService.login({ username, password });
+    const res = (await AuthService.login({ username, password })) as {
+      success: boolean;
+      user: User;
+    };
     console.log({ res });
 
     if (res.success) {

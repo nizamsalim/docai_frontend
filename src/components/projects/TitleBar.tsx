@@ -8,7 +8,6 @@ import {
   type SectionContextType,
 } from "@/context/SectionContext";
 import { StaticLoader } from "../common/Loader";
-import { generateWord } from "@/utils/generateWord";
 import { useAlert, type AlertContextType } from "@/context/AlertContext";
 import type { APIError } from "@/types/api.types";
 
@@ -42,9 +41,19 @@ export default function TitleBar() {
     }
   };
 
-  const handleDownload = () => {
-    console.log("Download project");
-    generateWord({ title: project.title, sections: project.sections! });
+  const handleDownload = async () => {
+    try {
+      const blob = await ProjectService.exportProject(project.id);
+      const url = window.URL.createObjectURL(blob as Blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${project.title}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
     // Logic will be handled by parent
   };
 

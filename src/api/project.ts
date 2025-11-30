@@ -99,4 +99,23 @@ export default class ProjectService {
       }
     });
   }
+
+  static exportProject(projectId: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await this.axios.get(`/${projectId}/download`, {
+          responseType: "blob",
+        });
+        resolve(res.data);
+      } catch (err: any) {
+        if (err.response) {
+          reject(err.response.data);
+        }
+        reject({
+          success: false,
+          message: "Something went wrong",
+        });
+      }
+    });
+  }
 }
