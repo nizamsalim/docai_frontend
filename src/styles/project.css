@@ -481,7 +481,7 @@ body {
   font-size: 14px;
   resize: none;
   outline: none;
-  min-height: 80px;
+  height: 50px;
   font-family: var(--font-family-base);
 }
 
@@ -491,7 +491,7 @@ body {
 
 .chat-send-btn {
   width: 100%;
-  padding: var(--space-12);
+  padding: var(--space-8);
   background-color: var(--color-primary);
   color: white;
   border: none;

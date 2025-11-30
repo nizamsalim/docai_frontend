@@ -73,7 +73,7 @@ function AllProjects({ projects }: { projects: Project[] }) {
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-slate-400">
-                      {formatDate(project.createdAt)}
+                      {formatDate(project.accessedAt)}
                     </span>
                   </td>
                 </tr>

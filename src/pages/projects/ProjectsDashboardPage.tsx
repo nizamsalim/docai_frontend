@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import type { Project } from "@/types/project.types";
 import AllProjects from "@/components/projects/AllProjects";
 import { Plus } from "lucide-react";
+import RecentlyAccessedProjects from "@/components/projects/RecentlyAccessedProjects";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -47,7 +48,9 @@ export default function HomePage() {
           </h2>
         ) : (
           <>
-            {/* <RecentlyAccessedProjects projects={[projects[0]]} /> */}
+            <RecentlyAccessedProjects
+              projects={projects.slice(0, Math.min(3, projects.length))}
+            />
 
             <AllProjects projects={projects} />
           </>

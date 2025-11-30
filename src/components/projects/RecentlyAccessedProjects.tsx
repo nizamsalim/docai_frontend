@@ -1,5 +1,6 @@
 import { ArrowRight, Calendar, FileText, PresentationIcon } from "lucide-react";
 import type { Project } from "@/types/project.types";
+import { useNavigate } from "react-router";
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
@@ -11,6 +12,7 @@ const formatDate = (dateStr: string) => {
 };
 
 function RecentlyAccessedProjects({ projects }: { projects: Project[] }) {
+  const navigate = useNavigate();
   return (
     <div className="mb-16">
       <h3 className="text-xl font-semibold text-white mb-6">
@@ -21,6 +23,7 @@ function RecentlyAccessedProjects({ projects }: { projects: Project[] }) {
           <div
             key={project.id}
             className="group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-6 hover:border-blue-500 transition-all cursor-pointer"
+            onClick={() => navigate(`/projects/${project.id}`)}
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -49,7 +52,7 @@ function RecentlyAccessedProjects({ projects }: { projects: Project[] }) {
             </h4>
             <div className="flex items-center gap-2 text-slate-400 text-sm">
               <Calendar size={16} />
-              <span>{formatDate(project.createdAt)}</span>
+              <span>{formatDate(project.accessedAt)}</span>
             </div>
           </div>
         ))}

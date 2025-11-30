@@ -118,4 +118,27 @@ export default class SectionService {
       }
     });
   }
+  static regenerate(
+    sectionId: string,
+    modelName: string
+  ): Promise<{ section: Section }> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await this.axios.get(
+          `/${sectionId}/regenerate/${modelName}`
+        );
+
+        resolve(res.data);
+      } catch (err: any) {
+        if (err.response) {
+          reject(err.response.data);
+        }
+
+        reject({
+          success: false,
+          message: "Something went wrong",
+        });
+      }
+    });
+  }
 }

@@ -17,5 +17,6 @@ export interface Project {
   sectionCount: number;
   createdAt: string;
   updatedAt: string;
+  accessedAt: string;
   sections?: Section[];
 }

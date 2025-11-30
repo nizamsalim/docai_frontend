@@ -11,6 +11,7 @@ import RefinementMessage from "./RefinementMessage";
 import RefinementService from "@/api/refinement";
 import type { APIError } from "@/types/api.types";
 import { useAlert, type AlertContextType } from "@/context/AlertContext";
+import { RefreshCwIcon } from "lucide-react";
 
 export default function ChatWindow() {
   const { showAlert } = useAlert() as AlertContextType;
@@ -68,6 +69,17 @@ export default function ChatWindow() {
     setisLoading(false);
   };
 
+  const handleSectionRegeneration = async () => {
+    setisLoading(true);
+    try {
+      const res = await SectionService.regenerate(section!.id, selectedModel);
+      setCurrentSection(res.section);
+    } catch (error) {
+      showAlert((error as Partial<APIError>).message);
+    }
+    setisLoading(false);
+  };
+
   return (
     <div className="chat-window">
       <div className="chat-header">
@@ -106,6 +118,13 @@ export default function ChatWindow() {
       </div>
 
       <div className="chat-input-container">
+        <button
+          onClick={handleSectionRegeneration}
+          className="bg-slate-700 text-slate-100 px-3 py-1 rounded text-sm hover:bg-slate-600 mb-3 flex"
+          title="Regenerate section content"
+        >
+          Regenerate section <RefreshCwIcon className="ml-2" size={20} />
+        </button>
         <textarea
           className="chat-input"
           value={inputText}
