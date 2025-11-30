@@ -91,6 +91,17 @@ export default function CreateProjectPage() {
     // User will implement handleSubmit logic
   };
 
+  const handleAIGeneration = async () => {
+    setLoading(true, "Generating sections");
+    if (!projectTitle.trim()) return;
+    const res = await ProjectService.generateProjectSections({
+      title: projectTitle,
+      type: projectType as string,
+    });
+    setSections((_) => res.sections);
+    setLoading(false);
+  };
+
   const isFormValid = projectType && projectTitle.trim() && sections.length > 0;
 
   return (
@@ -208,9 +219,7 @@ export default function CreateProjectPage() {
                   {projectType === "pptx" ? "Slides" : "Sections"}
                 </h3>
                 <button
-                  onClick={() => {
-                    /* User will implement AI generation logic */
-                  }}
+                  onClick={handleAIGeneration}
                   className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-lg font-medium transition-all"
                 >
                   <Wand2 size={18} />

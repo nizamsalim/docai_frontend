@@ -5,6 +5,22 @@ export default class ProjectService {
   private static axios = Axios.create({
     baseURL: `${import.meta.env.VITE_API_URL}/projects`,
   });
+  static async generateProjectSections(project: Partial<ProjectInput>) {
+    try {
+      const res = await this.axios.post("/generate", project, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err: any) {
+      if (err.response) {
+        return err.response.data;
+      }
+      return {
+        success: false,
+        message: "Something went wrong",
+      };
+    }
+  }
   static async createProject(project: ProjectInput) {
     try {
       const res = await this.axios.post("", project, { withCredentials: true });
