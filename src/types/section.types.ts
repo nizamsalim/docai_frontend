@@ -15,6 +15,7 @@ export interface Refinement {
   sectionId: string;
   beforeContent: string;
   afterContent: string;
+  model: string;
 }
 
 export interface Comment {

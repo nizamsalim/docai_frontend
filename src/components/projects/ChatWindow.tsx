@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@/styles/project.css";
 import SectionService from "@/api/section";
 import {
@@ -21,6 +21,8 @@ export default function ChatWindow() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setisLoading] = useState(false);
 
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (section) {
       setMessages(section.refinements!);
@@ -28,6 +30,10 @@ export default function ChatWindow() {
 
     return () => {};
   }, [section]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleRateRefinement = async (refinementId: string, rating: string) => {
     try {
@@ -46,6 +52,8 @@ export default function ChatWindow() {
 
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
+    console.log({ inputText, selectedModel });
+
     setisLoading(true);
     try {
       const res = await SectionService.refine(section!.id, {
@@ -69,8 +77,9 @@ export default function ChatWindow() {
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
         >
-          <option value="gemini">Gemini</option>
-          <option value="gpt">GPT</option>
+          <option value="gemini">gemini-2.5-flash</option>
+          <option value="gpt">gpt-oss-120b</option>
+          <option value="llama">llama-3.3-70b</option>
         </select>
       </div>
       <StaticLoader isVisible={isLoading} />
@@ -93,6 +102,7 @@ export default function ChatWindow() {
             />
           ))
         )}
+        <div ref={bottomRef} />
       </div>
 
       <div className="chat-input-container">

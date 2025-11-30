@@ -19,7 +19,7 @@ export default function RevisionModal() {
 
   if (!refinement) return null;
 
-  const { prompt, beforeContent, afterContent } = refinement;
+  const { prompt, beforeContent, afterContent, model } = refinement;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
@@ -71,12 +71,25 @@ export default function RevisionModal() {
           </div>
 
           {/* Prompt */}
-          <div className="mb-4">
-            <div className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
-              User Prompt
+          <div className="grid grid-cols-2 gap-6">
+            {/* USER PROMPT */}
+            <div>
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                User Prompt
+              </div>
+              <div className="rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 whitespace-pre-wrap">
+                {prompt}
+              </div>
             </div>
-            <div className="rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 whitespace-pre-wrap">
-              {prompt}
+
+            {/* MODEL */}
+            <div>
+              <div className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-1">
+                Model
+              </div>
+              <div className="rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 whitespace-pre-wrap">
+                {model}
+              </div>
             </div>
           </div>
 
