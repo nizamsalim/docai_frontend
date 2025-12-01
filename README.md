@@ -1,73 +1,77 @@
-# React + TypeScript + Vite
+## 📄 DocAI Frontend Description
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DocAI is a web application that revolutionizes **document creation** by allowing users to generate **Word** and **PowerPoint (PPT)** documents simply by providing the **project title** and the desired **section/slide titles**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 💡 Core Features
 
-## React Compiler
+- **Content Generation:**
+  - Users can generate initial document content by providing a project title and section/slide titles.
+  - Users can also opt to have the **AI generate the section/slide titles** automatically, based solely on the project title.
+  - All content generation is powered by **advanced LLM models**.
+- **Iterative Refinement:**
+  - After the initial generation, users can **refine the content iteratively** using an **integrated chat interface** with the LLM.
+- **Model Selection:**
+  - Users have the flexibility to select the underlying LLM model for generation and refinement, with options including: **Gemini**, **GPT**, and **LLaMA**.
+- **Refinement History & Feedback:**
+  - A **history view** allows users to see the **changes** brought about by **each refinement** step.
+  - For each refinement, the following metadata is tracked:
+    - **Model used**
+    - **Prompt used**
+  - Users can provide feedback on the refinements by **liking or disliking** them.
+- **User Comments:**
+  - Users can **add comments per section/slide** to record notes or reminders for later use.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📷 Application screenshots
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Login**  
+   ![login](./src/assets/readme_imgs/login.png)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+2. **Select project type**
+   ![project_type](./src/assets/readme_imgs/project_type.png)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. **Create project**
+   ![create](./src/assets/readme_imgs/create.png)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4. **Projects list**
+   ![projects_list](./src/assets/readme_imgs/projects.png)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+5. **Project view**
+   ![project](./src/assets/readme_imgs/project.png)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+6. **Refinement history**
+   ![ref_view](./src/assets/readme_imgs/ref_view.png)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+7. **Comments**
+   ![comments](./src/assets/readme_imgs/comments.png)
+
+## 🛠️ Running Instructions
+
+To set up and run the DocAI frontend locally, follow these steps:
+
+1.  **Clone the remote repository:**
+    ```bash
+    git clone https://github.com/nizamsalim/docai_frontend
+    cd docai_frontend
+    ```
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+---
+
+## ⚙️ Environment Variables
+
+The application requires the following environment variable to connect to the backend API:
+
+| Variable Name  | Description                           |
+| :------------- | :------------------------------------ |
+| `VITE_API_URL` | The URL of the DocAI backend service. |

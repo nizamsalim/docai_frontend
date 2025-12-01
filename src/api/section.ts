@@ -40,6 +40,8 @@ export default class SectionService {
         resolve(res.data);
       } catch (err: any) {
         if (err.response) {
+          console.log(err.response.data);
+
           reject(err.response.data);
         }
         reject({
